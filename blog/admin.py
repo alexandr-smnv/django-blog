@@ -5,24 +5,6 @@ from mptt.admin import MPTTModelAdmin
 
 from . import models
 
-# class WomenAdmin(admin.ModelAdmin):
-#     list_display = ('id', 'title', 'time_create', 'get_html_photo', 'is_published')
-#     list_display_links = ('id', 'title')
-#     search_fields = ('title', 'content')
-#     list_editable = ('is_published',)
-#     list_filter = ('is_published', 'time_create')
-#     prepopulated_fields = {'slug': ('title',)}
-#     fields = ('title', 'slug', 'cat', 'content', 'photo', 'get_html_photo', 'is_published', 'time_create', 'time_update')
-#     # Поля только для чтения
-#     readonly_fields = ('time_create', 'time_update', 'get_html_photo')
-#     save_on_top = True
-#
-#     def get_html_photo(self, object):
-#         if object.photo:
-#             return mark_safe(f"<img src='{object.photo.url}' width=50>")
-#
-#     get_html_photo.short_description = 'Миниатюра'
-
 
 class RecipeInline(admin.StackedInline):
     model = models.Recipe
@@ -33,6 +15,8 @@ class RecipeInline(admin.StackedInline):
 class PostAdmin(admin.ModelAdmin):
     list_display = ['title', 'category', 'author', 'create_at', 'id']
     inlines = [RecipeInline]
+    save_as = True
+    save_on_top = True
 
 
 @admin.register(models.Recipe)
