@@ -2,6 +2,7 @@ from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 
 from mptt.models import MPTTModel, TreeForeignKey
 
@@ -56,6 +57,9 @@ class Post(models.Model):
     def get_recipes(self):
         return self.recipe.all()
 
+    def get_comments(self):
+        return self.comment.all()
+
 
 class Recipe(models.Model):
     name = models.CharField(max_length=100)
@@ -78,7 +82,10 @@ class Comment(models.Model):
     email = models.EmailField(max_length=100)
     website = models.CharField(max_length=150, blank=True, null=True)
     message = models.TextField(max_length=500)
+    create_at = models.DateTimeField(default=timezone.now)
     post = models.ForeignKey(Post, related_name='comment', on_delete=models.CASCADE)
+
+
 
 
 
